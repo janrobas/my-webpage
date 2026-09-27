@@ -34,7 +34,7 @@ html[data-theme="light"] {
 
 * { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
 
 body {
   margin: 0;
@@ -485,7 +485,20 @@ form textarea:focus {
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
-.h-captcha { margin: 4px 0 18px; }
+.h-captcha {
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin: 4px 0 18px;
+}
+
+@media (max-width: 360px) {
+  .h-captcha {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+}
 
 /* ---------- Footer ---------- */
 

@@ -2,7 +2,10 @@
 require "inc/utils.php";
 
 $title = "Kontakt";
+$metaDescription = "Kontakt: pošljite sporočilo Jan Robasu.";
 $content = <<<HTML
+
+<p>Lahko me kontaktirate za dogovor o predavanjih, inštrukcijah ali razvojnih projektih.</p>
 
 <form action="do_contact.php" method="post" id="contact-form">
 <div class="field">

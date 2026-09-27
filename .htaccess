@@ -6,3 +6,9 @@ RewriteCond %{HTTP:X-Forwarded-SSL} !on
 RewriteCond %{HTTP_HOST} ^janrobas\.com$ [OR]
 RewriteCond %{HTTP_HOST} ^www\.janrobas\.com$
 RewriteRule ^/?$ "https\:\/\/janrobas\.com\/" [R=301,L]
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

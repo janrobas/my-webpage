@@ -6,11 +6,20 @@
   }
   $allowed = array("home", "about", "cv", "projekti", "contact", "contact_error", "contact_success");
   if (!in_array($subpage, $allowed)) {
+    http_response_code(404);
     $subpage = "home";
   }
   require $subpage . ".php";
 
   $activeNav = in_array($subpage, array("contact", "contact_error", "contact_success")) ? "contact" : $subpage;
+
+  $scheme = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") ? "https" : "http";
+  $host = $_SERVER["HTTP_HOST"] ?? "janrobas.com";
+  $basePath = rtrim(dirname($_SERVER["SCRIPT_NAME"] ?? "/"), "/");
+  $canonical = $scheme . "://" . $host . ($_SERVER["REQUEST_URI"] ?? $basePath . "/");
+  $ogImage = $scheme . "://" . $host . $basePath . "/og-image.png";
+  $siteDesc = "Osebna spletna stran Jan Robasa: predavatelj, razvijalec programske opreme in inštruktor programiranja.";
+  $pageDesc = (!empty($metaDescription)) ? $metaDescription : $siteDesc;
 ?>
 <!DOCTYPE html>
 <html lang="sl">
@@ -18,10 +27,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jan Robas | <?=htmlspecialchars($title)?></title>
-  <meta name="description" content="Osebna spletna stran Jan Robasa – predavatelj, razvijalec programske opreme in inštruktor programiranja.">
+  <meta name="description" content="<?=htmlspecialchars($pageDesc)?>">
+  <meta name="author" content="Jan Robas">
+  <meta name="robots" content="index, follow">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f3ec">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="canonical" href="<?=htmlspecialchars($canonical)?>">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jan Robas">
+  <meta property="og:locale" content="sl_SI">
+  <meta property="og:title" content="Jan Robas | <?=htmlspecialchars($title)?>">
+  <meta property="og:description" content="<?=htmlspecialchars($pageDesc)?>">
+  <meta property="og:url" content="<?=htmlspecialchars($canonical)?>">
+  <meta property="og:image" content="<?=htmlspecialchars($ogImage)?>">
   <script>
     (function () {
       var t = null;
@@ -92,6 +113,7 @@
         topnav.classList.add("open");
         backdrop.classList.add("show");
         menuOpen.classList.add("is-active");
+        document.body.classList.add("menu-locked");
         menuOpen.setAttribute("aria-expanded", "true");
         menuOpen.setAttribute("aria-label", "Zapri meni");
       }
@@ -100,6 +122,7 @@
         topnav.classList.remove("open");
         backdrop.classList.remove("show");
         menuOpen.classList.remove("is-active");
+        document.body.classList.remove("menu-locked");
         menuOpen.setAttribute("aria-expanded", "false");
         menuOpen.setAttribute("aria-label", "Odpri meni");
       }

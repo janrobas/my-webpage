@@ -1,7 +1,8 @@
 <?php
 $title = "Projekti";
+$metaDescription = "Igre in spletni projekti Jan Robasa: preproste igre, RacunProsim in E-dobavnica.";
 $content = <<<HTML
-<h3>Igre</h3>
+<h2>Igre</h2>
 <p>Preproste igre razvijam v prostem času in jih objavljam na <a href="https://janrobas.itch.io/" target="_blank" rel="noopener">itch.io</a>.</p>
 <div class="game-list">
   <a class="game-row" href="https://janrobas.itch.io/light-on" target="_blank" rel="noopener">
@@ -26,7 +27,7 @@ $content = <<<HTML
     </div>
   </a>
 </div>
-<h3>Projekti</h3>
+<h2>Projekti</h2>
 <p>Spletne aplikacije, ki jih razvijam za vsakdanjo uporabo.</p>
 <div class="card-grid">
   <a class="card-tile" href="https://www.racunprosim.si/" target="_blank" rel="noopener">

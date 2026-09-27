@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+body {
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #f9f9f9;
+  font-family:Roboto,sans-serif;
+}
+h1 {
+  font-size: 50px;
+  margin-top: -10px;
+  margin-left: 40px;
+  margin-bottom: 10px;
+  color: #333;
+}
+h2 {
+  font-size: 40px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+h3 {
+  font-size: 25px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+.other-channels {
+  margin-top: 50px;
+}
+.menu-sidebar ul {
+  display: block;
+}
+.menu-sidebar {
+  top: 0;
+  overflow: hidden;
+  transition: .3s;
+  position: absolute;
+  top: 10px;
+  min-width: 170px;
+  width: 70vw;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+}
+.menu-sidebar .ornament {
+  background: #ff7a73;
+  background: linear-gradient(0deg, #ff7a73 0%, rgb(141, 196, 242) 100%);
+  width: 8px;
+}
+.menu-sidebar.menu-open {
+  opacity: 1;
+  pointer-events: unset;
+}
+nav {
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+#menu-open {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 32px;
+  color: #333;
+  margin: 10px;
+  transition: .3s;
+}
+#menu-open:hover {
+  transform: scale(1.2);
+}
+header {
+  display: flex;
+}
+a {
+  color: #0f4f62;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 35px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+nav li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+nav ul a {
+  display: block;
+  text-decoration: none;
+  color: #0f4f62;
+  font-size: 26px;
+}
+nav ul a:hover {
+  text-decoration: underline;
+}
+.content div.content-inner {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 20px;
+  color: #333;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  line-height: 28px;
+}
+.content li {
+  line-height: 30px;
+}
+button, input[type=button], input[type=submit], input[type=reset] {
+  background: #fff;
+  color: #333;
+  background: linear-gradient(25deg, #ece4e4 0%, rgb(209, 235, 255) 100%);
+  font-weight: normal;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 7px;
+  border-width: 1px;
+  border-color: #333;
+}
+button:hover, input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
+  text-decoration: underline;
+}
+a button {
+  color: #333;
+  font-size: 15px;
+  cursor: pointer;
+}
+form input[type=button], form input[type=submit], form input[type=reset] {
+  padding: 20px;
+  width: auto;
+  font-size: 14px;
+  color: #222;
+}
+form div.field {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+}
+form input, form textarea {
+  max-width: 460px;
+  margin-top: 2px;
+  font-size: 15px;
+  padding: 5px;
+}
+form textarea {
+  height: 140px;
+}
+.contact-channels {
+  display: flex;
+}
+.contact-channel {
+  font-size: 40px;
+  color: #333;
+  padding: 20px;
+  transition: .3s;
+  display: block;
+  transition: .3s;
+}
+.contact-channel:hover {
+  transform: scale(1.3);
+}
+@media only screen and (min-width: 600px) {
+  main {
+    margin-left: 160px;
+  }
+  #menu-open {
+    display: none;
+  }
+  .menu-sidebar {
+    transition: 0;
+    width: unset;
+    opacity: 1;
+    pointer-events: unset;
+    min-width: 170px;
+  }
+  nav {
+    opacity: .5;
+  }
+  .content {
+    padding-left: 33px;
+    padding-top: 0;
+  }
+  h1 {
+    margin-left: 192px;
+    margin-top: 0;
+  }
+  nav ul a {
+    font-size: 20px;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #222;
+  }
+  h1 {    
+    color: #fff;
+  }
+  h2, h3 {
+    color: #fff;
+  }
+  nav {
+    background-color: #333;
+  }
+  .contact-channel {
+    color: #fff;
+  }
+  a {
+    color: #ffffff;
+  }
+  nav ul a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+  }
+  .content div.content-inner {
+    background-color: #333;
+    color: #fff;
+  }
+  #menu-open {
+    color: #fff;
+  }
+  button, input[type=button], input[type=submit], input[type=reset] {
+    background: #ff7a73;
+    background: linear-gradient(25deg, #ff7a73 0%, rgb(141, 196, 242) 100%);
+  }
+}

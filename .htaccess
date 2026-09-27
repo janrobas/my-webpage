@@ -1,0 +1,8 @@
+RewriteEngine on
+RewriteCond "$1.html" !-f
+RewriteRule "^(.*).html$" "index.php?subpage=$1"
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-SSL} !on
+RewriteCond %{HTTP_HOST} ^janrobas\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.janrobas\.com$
+RewriteRule ^/?$ "https\:\/\/janrobas\.com\/" [R=301,L]

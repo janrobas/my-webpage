@@ -8,8 +8,8 @@ $content = <<<HTMLCONTENT
 <h2>Kaj delam</h2>
 <ul>
     <li><strong>Predavam</strong> strokovne predmete s področja računalništva in informatike na višji strokovni šoli.</li>
-    <li><strong>Razvijam</strong> programske rešitve (full stack, najraje C# in JavaScript).</li>
-    <li><strong>Inštruiram</strong> programiranje za vse ravni.</li>
+    <li><strong>Razvijam</strong> programske rešitve (full stack, najraje C# in JavaScript) in jih povezujem z obstoječimi sistemi, kadar je treba.</li>
+    <li><strong>Inštruiram</strong> programiranje ter svetujem pri uporabi umetne inteligence v praksi (osnove strojnega učenja, uporaba, workflowi).</li>
 </ul>
 
 <p>Za dogovor o predavanjih ali inštrukcijah <a href="contact.html"><button>me kontaktirajte</button></a>.</p>

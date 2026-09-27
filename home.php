@@ -8,7 +8,7 @@ $content = <<<HTML
 <h2>Kaj ponujam</h2>
 <ul class="offer-list">
   <li><strong>Predavanja:</strong> strokovni predmeti s področja računalništva in informatike na višji strokovni šoli.</li>
-  <li><strong>Razvoj:</strong> full stack razvoj programskih rešitev, najraje v C# in JavaScript.</li>
-  <li><strong>Inštrukcije:</strong> individualno inštruiranje programiranja za vse ravni.</li>
+  <li><strong>Razvoj:</strong> full stack razvoj programskih rešitev, najraje v C# in JavaScript, ter povezovanje obstoječih sistemov in AI rešitev, kadar je treba.</li>
+  <li><strong>Inštrukcije:</strong> individualno inštruiranje programiranja ter svetovanje pri uporabi umetne inteligence (osnove strojnega učenja, uporaba, workflowi).</li>
 </ul>
 HTML;

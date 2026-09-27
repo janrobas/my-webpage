@@ -5,7 +5,7 @@ $title = "Kontakt";
 $metaDescription = "Kontakt: pošljite sporočilo Jan Robasu.";
 $content = <<<HTML
 
-<p>Lahko me kontaktirate za dogovor o predavanjih, inštrukcijah ali razvojnih projektih.</p>
+<p>Lahko me kontaktirate za dogovor o predavanjih, inštrukcijah, svetovanju pri uporabi umetne inteligence ali razvojnih projektih in povezovanju rešitev.</p>
 
 <form action="do_contact.php" method="post" id="contact-form">
 <div class="field">

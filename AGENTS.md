@@ -9,7 +9,7 @@ Osebna spletna stran Jan Robasa. PHP + vanilijski CSS/JS, **brez build orodij in
 - Po spremembi preveri, da se stran dejansko odpre (preglej `index.html`, `projekti.html`, `cv.html`, ... prek HTTP).
 
 ## Struktura in usmerjanje
-- `.htaccess` pretvori `*.html` → `index.php?subpage=X` (če fizične datoteke ni), onemogoči directory listing, blokira dotfile (`.git`, ...), prisili `https://janrobas.com` in predpomni statiko (`Cache-Control`).
+- `.htaccess` pretvori `*.html` → `index.php?subpage=X` (če fizične datoteke ni), onemogoči directory listing, blokira dotfile (`.git`, ...), vsili HTTPS in predpomni statiko (`Cache-Control`). `janrobas.com` in `lalala.si` sta oba živa na isti vsebini; `canonical`/`og:url`/JSON-LD v `index.php` vedno kažejo na `https://janrobas.com` (SEO konsolidacija).
 - `robots.txt` in `sitemap.xml` sta statična; ob novi podstrani ju posodobi.
 - `index.php`: allowlist dovoljenih podstrani, nato `require $subpage.".php"`.
 - Vsaka podstran (`home.php`, `about.php`, `cv.php`, `projekti.php`, `contact.php`, `contact_error.php`, `contact_success.php`) nastavi `$title` in `$content` (heredoc HTML).

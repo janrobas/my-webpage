@@ -7,14 +7,24 @@ DirectoryIndex index.php index.html
   # Never serve dotfiles (.git, .env, ...); keep /.well-known reachable
   RewriteRule (^|/)\.(?!well-known/) - [F,L]
 
-  # Force https://janrobas.com (all paths, drop www)
+  # Drop www on janrobas.com
   RewriteCond %{HTTP_HOST} ^www\.janrobas\.com$ [NC]
   RewriteRule ^ https://janrobas.com%{REQUEST_URI} [R=301,L]
 
+  # Force https on janrobas.com
   RewriteCond %{HTTPS} off
   RewriteCond %{HTTP:X-Forwarded-SSL} !on
   RewriteCond %{HTTP_HOST} ^janrobas\.com$ [NC]
   RewriteRule ^ https://janrobas.com%{REQUEST_URI} [R=301,L]
+
+  # Drop www + force https on lalala.si (stays on its own domain; canonical consolidates to janrobas.com)
+  RewriteCond %{HTTP_HOST} ^www\.lalala\.si$ [NC]
+  RewriteRule ^ https://lalala.si%{REQUEST_URI} [R=301,L]
+
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-SSL} !on
+  RewriteCond %{HTTP_HOST} ^lalala\.si$ [NC]
+  RewriteRule ^ https://lalala.si%{REQUEST_URI} [R=301,L]
 
   # *.html -> index.php?subpage=X (only when no real file exists)
   RewriteCond %{REQUEST_FILENAME} !-f

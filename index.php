@@ -14,14 +14,19 @@
   $activeNav = in_array($subpage, array("contact", "contact_error", "contact_success")) ? "contact" : $subpage;
 
   $scheme = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") ? "https" : "http";
-  $host = $_SERVER["HTTP_HOST"] ?? "janrobas.com";
+  $hostRaw = $_SERVER["HTTP_HOST"] ?? "janrobas.com";
+  $hostOnly = strtolower(preg_replace("/:\\d+$/", "", $hostRaw));
+  $liveHosts = array("janrobas.com", "www.janrobas.com", "lalala.si", "www.lalala.si");
+  // Both domains stay live; SEO consolidates onto the canonical origin.
+  $origin = in_array($hostOnly, $liveHosts, true) ? "https://janrobas.com" : $scheme . "://" . $hostRaw;
   $basePath = rtrim(dirname($_SERVER["SCRIPT_NAME"] ?? "/"), "/");
-  $canonical = $scheme . "://" . $host . $basePath . "/";
+  $siteUrl = $origin . $basePath . "/";
+  $canonical = $siteUrl;
   if (!in_array($subpage, array("home", "index"), true)) {
     $pageFile = in_array($subpage, array("contact_error", "contact_success"), true) ? "contact" : $subpage;
     $canonical .= $pageFile . ".html";
   }
-  $ogImage = $scheme . "://" . $host . $basePath . "/og-image.png";
+  $ogImage = $siteUrl . "og-image.png";
   $siteDesc = "Osebna spletna stran Jan Robasa: predavatelj, razvijalec programske opreme in inštruktor programiranja.";
   $pageDesc = (!empty($metaDescription)) ? $metaDescription : $siteDesc;
 ?>
@@ -58,7 +63,7 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Jan Robas",
-    "url": "<?=$scheme?>://<?=htmlspecialchars($host)?><?=htmlspecialchars($basePath)?>/",
+    "url": "<?=htmlspecialchars($siteUrl)?>",
     "jobTitle": "Predavatelj, razvijalec programske opreme in inštruktor programiranja",
     "sameAs": [
       "https://github.com/janrobas",

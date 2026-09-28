@@ -12,5 +12,5 @@ $content = <<<HTMLCONTENT
     <li><strong>Inštruiram</strong> programiranje ter svetujem pri uporabi umetne inteligence v praksi (osnove strojnega učenja, uporaba, workflowi).</li>
 </ul>
 
-<p>Za dogovor o predavanjih ali inštrukcijah <a href="contact.html"><button>me kontaktirajte</button></a>.</p>
+<p>Za dogovor o predavanjih ali inštrukcijah <a class="link-button" href="contact.html">me kontaktirajte</a>.</p>
 HTMLCONTENT;

@@ -22,11 +22,11 @@ html[data-theme="light"] {
   --border: #e4ded2;
   --text: #2a2a26;
   --muted: rgba(42, 42, 38, 0.62);
-  --accent: #bd4a54;
-  --accent-strong: #a53f48;
+  --accent: #b54550;
+  --accent-strong: #9c3942;
   --hover: rgba(42, 42, 38, 0.06);
   --input-bg: #ffffff;
-  --focus-ring: rgba(189, 74, 84, 0.25);
+  --focus-ring: rgba(181, 69, 80, 0.25);
   --banner-grid: rgba(42, 42, 38, 0.05);
   --banner-center: rgba(42, 42, 38, 0.14);
   --shadow: 0 10px 30px rgba(42, 42, 38, 0.08);
@@ -342,7 +342,7 @@ a.card-tile:hover {
   text-decoration: none;
 }
 
-.card-name {
+.content-inner .card-name {
   margin: 0 0 6px;
   font-size: 17px;
   font-weight: 900;
@@ -410,7 +410,7 @@ a.game-row:hover {
   min-width: 0;
 }
 
-.game-name {
+.content-inner .game-name {
   margin: 0;
   font-size: 18px;
   font-weight: 900;
@@ -444,6 +444,22 @@ button:hover,
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+}
+
+.content-inner a.link-button {
+  display: inline-block;
+  padding: 9px 17px;
+  border: 1px solid var(--accent);
+  border-radius: 11px;
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.content-inner a.link-button:hover {
   background: var(--accent);
   color: #fff;
   text-decoration: none;
@@ -489,14 +505,14 @@ form textarea:focus {
   max-width: 100%;
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 4px 0 18px;
 }
 
 @media (max-width: 360px) {
   .h-captcha {
     transform: scale(0.9);
-    transform-origin: center;
+    transform-origin: left center;
   }
 }
 

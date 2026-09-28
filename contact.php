@@ -10,22 +10,22 @@ $content = <<<HTML
 <form action="do_contact.php" method="post" id="contact-form">
 <div class="field">
 <label for="name">Ime:</label>
-<input type="text" id="name" name="name" value="">
+<input type="text" id="name" name="name" value="" autocomplete="name" required>
 </div>
 
 <div class="field">
 <label for="email">E-pošta:</label>
-<input type="text" id="email" name="email" value="">
+<input type="email" id="email" name="email" value="" autocomplete="email">
 </div>
 
 <div class="field">
 <label for="phone">Telefon:</label>
-<input type="text" id="phone" name="phone" value="">
+<input type="tel" id="phone" name="phone" value="" autocomplete="tel">
 </div>
 
 <div class="field">
 <label for="content">Vaše sporočilo:</label>
-<textarea name="content" id="content"></textarea>
+<textarea name="content" id="content" required></textarea>
 </div>
 
 <div class="h-captcha" data-sitekey="0948ce9d-3d00-450c-b726-71ad42e8e8f3"></div>
@@ -36,18 +36,11 @@ HTML
 .other_channels().
 <<<HTML
 <script>
-    let captchaOk = false;
-        
-    function recaptcha_callback() {
-        captchaOk = true;
-    }
-
-    document.getElementById("contact-form").addEventListener("submit", function(e) {
-        
-        const hcaptchaVal = document.querySelector('[name=h-captcha-response]').value;
-        if (hcaptchaVal === "") {
-            alert("Prosimo, obkljukajte \"Jaz sem človek\" preden pošljete sporočilo.");
+    document.getElementById("contact-form").addEventListener("submit", function (e) {
+        var field = document.querySelector('[name="h-captcha-response"]');
+        if (!field || field.value === "") {
             e.preventDefault();
+            alert("Prosimo, obkljukajte \"Jaz sem človek\" preden pošljete sporočilo.");
         }
     });
 </script>

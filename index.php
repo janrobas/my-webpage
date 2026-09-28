@@ -16,7 +16,11 @@
   $scheme = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") ? "https" : "http";
   $host = $_SERVER["HTTP_HOST"] ?? "janrobas.com";
   $basePath = rtrim(dirname($_SERVER["SCRIPT_NAME"] ?? "/"), "/");
-  $canonical = $scheme . "://" . $host . ($_SERVER["REQUEST_URI"] ?? $basePath . "/");
+  $canonical = $scheme . "://" . $host . $basePath . "/";
+  if (!in_array($subpage, array("home", "index"), true)) {
+    $pageFile = in_array($subpage, array("contact_error", "contact_success"), true) ? "contact" : $subpage;
+    $canonical .= $pageFile . ".html";
+  }
   $ogImage = $scheme . "://" . $host . $basePath . "/og-image.png";
   $siteDesc = "Osebna spletna stran Jan Robasa: predavatelj, razvijalec programske opreme in inštruktor programiranja.";
   $pageDesc = (!empty($metaDescription)) ? $metaDescription : $siteDesc;
@@ -30,8 +34,7 @@
   <meta name="description" content="<?=htmlspecialchars($pageDesc)?>">
   <meta name="author" content="Jan Robas">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f3ec">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+  <meta name="theme-color" id="meta-theme-color" content="#000000">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -43,6 +46,28 @@
   <meta property="og:description" content="<?=htmlspecialchars($pageDesc)?>">
   <meta property="og:url" content="<?=htmlspecialchars($canonical)?>">
   <meta property="og:image" content="<?=htmlspecialchars($ogImage)?>">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Jan Robas">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jan Robas | <?=htmlspecialchars($title)?>">
+  <meta name="twitter:description" content="<?=htmlspecialchars($pageDesc)?>">
+  <meta name="twitter:image" content="<?=htmlspecialchars($ogImage)?>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jan Robas",
+    "url": "<?=$scheme?>://<?=htmlspecialchars($host)?><?=htmlspecialchars($basePath)?>/",
+    "jobTitle": "Predavatelj, razvijalec programske opreme in inštruktor programiranja",
+    "sameAs": [
+      "https://github.com/janrobas",
+      "https://www.linkedin.com/in/jan-robas-bab83580/",
+      "https://www.facebook.com/janrobas",
+      "https://janrobas.itch.io/"
+    ]
+  }
+  </script>
   <script>
     (function () {
       var t = null;
@@ -51,12 +76,14 @@
         t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
       }
       document.documentElement.setAttribute("data-theme", t);
+      var meta = document.getElementById("meta-theme-color");
+      if (meta) meta.setAttribute("content", t === "light" ? "#f6f3ec" : "#000000");
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=<?=filemtime(__DIR__ . "/style.css")?>">
   <?php if ($subpage === "contact") { ?>
   <script src="https://www.hCaptcha.com/1/api.js?hl=sl" async defer></script>
   <?php } ?>
@@ -101,7 +128,7 @@
 
   <div class="menu-backdrop" id="menu-backdrop"></div>
 
-  <script src="banner.js"></script>
+  <script src="banner.js?v=<?=filemtime(__DIR__ . "/banner.js")?>"></script>
   <script>
     (function () {
       var menuOpen = document.getElementById("menu-open");
@@ -154,6 +181,8 @@
         var root = document.documentElement;
         var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
         root.setAttribute("data-theme", next);
+        var meta = document.getElementById("meta-theme-color");
+        if (meta) meta.setAttribute("content", next === "light" ? "#f6f3ec" : "#000000");
         try { localStorage.setItem("janrobas-theme", next); } catch (e) {}
         document.dispatchEvent(new CustomEvent("themechange"));
       });

@@ -24,26 +24,47 @@
     pal.center = get("--banner-center");
   }
 
+  // static grid layer, cached so the animation loop only redraws the wave
+  var staticCanvas = document.createElement("canvas");
+  var staticCtx = staticCanvas.getContext("2d");
+  var staticReady = false;
+
+  function lineOn(c, x1, y1, x2, y2) {
+    c.beginPath();
+    c.moveTo(x1, y1);
+    c.lineTo(x2, y2);
+    c.stroke();
+  }
+
+  function renderStatic() {
+    var dpr = window.devicePixelRatio || 1;
+    staticCanvas.width = Math.round(w * dpr) || 1;
+    staticCanvas.height = Math.round(h * dpr) || 1;
+    var c = staticCtx;
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c.clearRect(0, 0, w, h);
+
+    var step = 48;
+    c.lineWidth = 1;
+    c.strokeStyle = pal.grid;
+    for (var gx = 0; gx <= w; gx += step) lineOn(c, gx, 0, gx, h);
+    for (var gy = 0; gy <= h; gy += step) lineOn(c, 0, gy, w, gy);
+
+    c.strokeStyle = pal.center;
+    lineOn(c, 0, h / 2, w, h / 2);
+    staticReady = true;
+  }
+
   function resize() {
     var dpr = window.devicePixelRatio || 1;
     var rect = canvas.getBoundingClientRect();
     w = rect.width;
     h = rect.height;
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
+    canvas.width = Math.round(w * dpr) || 1;
+    canvas.height = Math.round(h * dpr) || 1;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function line(x1, y1, x2, y2) {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
-  }
-
-  function smoothstep(t) {
-    t = Math.max(0, Math.min(1, t));
-    return t * t * (3 - 2 * t);
+    renderStatic();
+    draw(performance.now());
   }
 
   // getting louder from left to right: amplitude grows across the banner
@@ -69,12 +90,6 @@
     return 10000 + Math.random() * 5000; // 10-15s between waves
   }
 
-  function swell(now) {
-    var t = (now - waveStart) / WAVE_DURATION;
-    if (t <= 0.5) return smoothstep(t / 0.5);
-    return 1 - smoothstep((t - 0.5) / 0.5);
-  }
-
   // easter egg: click/tap makes the wave sploosh (big surge + fast rush)
   var SURGE_DURATION = 1600; // ms
   var surgeStart = -1e9;
@@ -88,42 +103,18 @@
   function sploosh() {
     if (reduced) return;
     surgeStart = performance.now();
+    lastNow = performance.now();
+    if (idleTimer) { clearTimeout(idleTimer); idleTimer = 0; }
+    schedule();
   }
 
   function draw(now) {
+    if (!staticReady) renderStatic();
+
     ctx.clearRect(0, 0, w, h);
-
-    var step = 48;
-    ctx.lineWidth = 1;
-
-    ctx.strokeStyle = pal.grid;
-    for (var gx = 0; gx <= w; gx += step) line(gx, 0, gx, h);
-    for (var gy = 0; gy <= h; gy += step) line(0, gy, w, gy);
-
-    ctx.strokeStyle = pal.center;
-    line(0, h / 2, w, h / 2);
-
-    var dt = (now - lastNow) / 1000;
-    lastNow = now;
-
-    if (!reduced) {
-      if (state === IDLE && now >= nextWaveAt) {
-        state = WAVING;
-        waveStart = now;
-      } else if (state === WAVING && now - waveStart >= WAVE_DURATION) {
-        state = IDLE;
-        nextWaveAt = now + idleDelay();
-      }
-    }
+    ctx.drawImage(staticCanvas, 0, 0, w, h);
 
     var surge = surgeAt(now);
-    if (surge > 0) {
-      phase += dt * (5 + 8 * surge); // fast rush during sploosh
-    } else if (state === WAVING) {
-      phase += dt * 0.7; // occasional gentle drift
-    }
-
-    var s = state === WAVING ? swell(now) : 0;
     var freq = 0.05;
     var ampScale = 1 + surge * 0.5;
 
@@ -141,16 +132,80 @@
     }
 
     ctx.globalAlpha = 1;
+  }
 
-    if (!reduced) requestAnimationFrame(draw);
+  // the loop only runs while the wave moves or a sploosh is active;
+  // otherwise it sleeps until the next scheduled wave.
+  var running = !reduced;
+  var rafId = 0;
+  var idleTimer = 0;
+
+  function schedule() {
+    if (!running || rafId) return;
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function frame(now) {
+    rafId = 0;
+    if (!running) return;
+
+    var dt = (now - lastNow) / 1000;
+    if (!isFinite(dt) || dt < 0) dt = 0;
+    if (dt > 0.1) dt = 0.1;
+    lastNow = now;
+
+    if (state === IDLE && now >= nextWaveAt) {
+      state = WAVING;
+      waveStart = now;
+    } else if (state === WAVING && now - waveStart >= WAVE_DURATION) {
+      state = IDLE;
+      nextWaveAt = now + idleDelay();
+    }
+
+    var surge = surgeAt(now);
+    if (surge > 0) {
+      phase += dt * (5 + 8 * surge); // fast rush during sploosh
+    } else if (state === WAVING) {
+      phase += dt * 0.7; // occasional gentle drift
+    }
+
+    draw(now);
+
+    if (state === WAVING || surge > 0) {
+      schedule();
+    } else {
+      idleTimer = window.setTimeout(wake, Math.max(0, nextWaveAt - performance.now()) + 50);
+    }
+  }
+
+  function wake() {
+    idleTimer = 0;
+    if (!running) return;
+    lastNow = performance.now();
+    schedule();
   }
 
   readColors();
   resize();
+
   window.addEventListener("resize", resize);
   document.addEventListener("themechange", function () {
     readColors();
-    if (reduced) draw(0);
+    renderStatic();
+    draw(performance.now());
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (reduced) return;
+    if (document.hidden) {
+      running = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+      if (idleTimer) { clearTimeout(idleTimer); idleTimer = 0; }
+    } else {
+      running = true;
+      lastNow = performance.now();
+      schedule();
+    }
   });
 
   var banner = canvas.closest("#banner") || canvas;
@@ -163,8 +218,8 @@
   });
 
   if (reduced) {
-    draw(0);
+    draw(performance.now());
   } else {
-    requestAnimationFrame(draw);
+    schedule();
   }
 })();

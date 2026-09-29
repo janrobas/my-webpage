@@ -97,9 +97,6 @@
       if (meta) meta.setAttribute("content", t === "light" ? "#f6f3ec" : "#000000");
     })();
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=<?=filemtime(__DIR__ . "/style.css")?>">
   <?php if ($subpage === "contact") { ?>
   <script src="https://js.hcaptcha.com/1/api.js?hl=sl" async defer></script>

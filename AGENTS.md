@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Osebna spletna stran Jan Robasa. PHP + vanilijski CSS/JS, **brez build orodij in odvisnosti** (razen Google Fonts in itch.io embedov). Teče lokalno na XAMPP.
+Osebna spletna stran Jan Robasa. PHP + vanilijski CSS/JS, **brez build orodij in odvisnosti** (pisava Lato je samohostana, zunanji so le itch.io embedi). Teče lokalno na XAMPP.
 
 ## Ogled in testiranje
 - Stran je dostopna na `http://localhost/my-webpage/`.
@@ -22,7 +22,7 @@ Osebna spletna stran Jan Robasa. PHP + vanilijski CSS/JS, **brez build orodij in
 ## Dizajn — pomembno
 - **NE maramo "AI generiranega" izgleda**: izogibaj se enotnih mrež kartic (card grid) na landing strani in odvečnih okvirjev. Raje preprosto, človeško, minimalno (navadni seznami, odprt tekst). Preveri pri uporabniku, če nisi prepričan.
 - Dvojna tema: temna (privzeto) / svetla prek `data-theme` na `<html>`. Barve so CSS spremenljivke v `style.css` (`--bg`, `--surface`, `--text`, `--accent` = `#d65d66`, ...). Toggle shrani v localStorage (`janrobas-theme`); vrednost se nastavi v inline skriptu v `<head>`, da ni flasha.
-- Pisava: Lato (Google Fonts). Zaobljeni robovi 14–19px.
+- Pisava: Lato, samohostan v `fonts/` (podmnožici `latin` in `latin-ext`, 6 × woff2, `@font-face` s `unicode-range` na vrhu `style.css`). `latin-ext` je nujen za č/š/ž — brez njega ti znaki padejo na sistemsko pisavo. Zaobljeni robovi 14–19px.
 - `banner.js`: animiran pixel-val (crescendo L→R), občasno "povalovi"; klik/tap = easter egg (sploosh). Za bralnike zaslona je banner dekorativen (`aria-hidden`), zato ga tipkovnica ne doseže. Spoštuje `prefers-reduced-motion`.
 - Vsebina je slovenska; komentarji v kodi minimalni.
 

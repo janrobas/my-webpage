@@ -138,7 +138,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="footer-inner">&copy; <?=date("Y")?> Jan Robas<span class="footer-cursor">&#9608;</span></div>
+    <div class="footer-inner">&copy; <?=date("Y")?> Jan Robas<span class="footer-cursor" aria-hidden="true"></span></div>
   </footer>
 
   <div class="menu-backdrop" id="menu-backdrop"></div>

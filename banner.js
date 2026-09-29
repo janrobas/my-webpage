@@ -10,6 +10,7 @@
   var PX = 5; // pixel size
   var w = 0;
   var h = 0;
+  var dprUsed = 0;
 
   var pal = { accent: "#d65d66", grid: "rgba(191,203,190,.07)", center: "rgba(191,203,190,.18)" };
 
@@ -56,10 +57,13 @@
   }
 
   function resize() {
-    var dpr = window.devicePixelRatio || 1;
     var rect = canvas.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    // mobile browsers fire resize while scrolling (URL bar); nothing to redo then
+    if (rect.width === w && rect.height === h && dpr === dprUsed) return;
     w = rect.width;
     h = rect.height;
+    dprUsed = dpr;
     canvas.width = Math.round(w * dpr) || 1;
     canvas.height = Math.round(h * dpr) || 1;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -82,7 +86,8 @@
 
   var WAVE_DURATION = 4000; // ms
   var waveStart = 0;
-  var nextWaveAt = performance.now() + 8000;
+  // with reduced motion the automatic wave stays off; only a tap animates
+  var nextWaveAt = reduced ? Infinity : performance.now() + 8000;
   var phase = 0;
   var lastNow = performance.now();
 
@@ -93,22 +98,30 @@
   // easter egg: click/tap makes the wave sploosh (big surge + fast rush)
   var SURGE_DURATION = 1600; // ms
   var surgeStart = -1e9;
+  var surgeArmed = false;
+  var surging = false; // keeps the loop alive for the whole surge
 
   function surgeAt(now) {
+    if (!surging) return 0;
     var t = (now - surgeStart) / SURGE_DURATION;
     if (t <= 0 || t >= 1) return 0;
     return Math.sin(t * Math.PI); // 0 -> 1 -> 0
   }
 
   function sploosh() {
-    if (reduced) return;
-    surgeStart = performance.now();
+    // The surge clock starts on the first drawn frame, not on the tap: mobile
+    // browsers can deliver that frame late, which used to eat the whole 1.6s
+    // surge before anything was drawn.
+    surgeArmed = true;
+    surging = true;
     lastNow = performance.now();
     if (idleTimer) { clearTimeout(idleTimer); idleTimer = 0; }
+    running = true; // a tap always animates, even under reduced motion
     schedule();
   }
 
   function draw(now) {
+    if (!w || !h) return;
     if (!staticReady) renderStatic();
 
     ctx.clearRect(0, 0, w, h);
@@ -149,6 +162,12 @@
     rafId = 0;
     if (!running) return;
 
+    if (surgeArmed) {
+      surgeArmed = false;
+      surgeStart = now;
+      lastNow = now;
+    }
+
     var dt = (now - lastNow) / 1000;
     if (!isFinite(dt) || dt < 0) dt = 0;
     if (dt > 0.1) dt = 0.1;
@@ -171,8 +190,12 @@
 
     draw(now);
 
-    if (state === WAVING || surge > 0) {
+    if (surging && now - surgeStart >= SURGE_DURATION) surging = false;
+
+    if (state === WAVING || surging) {
       schedule();
+    } else if (reduced) {
+      running = false; // never start the automatic wave against the user's preference
     } else {
       idleTimer = window.setTimeout(wake, Math.max(0, nextWaveAt - performance.now()) + 50);
     }
@@ -196,12 +219,11 @@
   });
 
   document.addEventListener("visibilitychange", function () {
-    if (reduced) return;
     if (document.hidden) {
       running = false;
       if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
       if (idleTimer) { clearTimeout(idleTimer); idleTimer = 0; }
-    } else {
+    } else if (!reduced) {
       running = true;
       lastNow = performance.now();
       schedule();
@@ -209,7 +231,12 @@
   });
 
   var banner = canvas.closest("#banner") || canvas;
-  banner.addEventListener("pointerdown", sploosh);
+  if (window.PointerEvent) {
+    banner.addEventListener("pointerdown", sploosh);
+  } else {
+    banner.addEventListener("touchstart", sploosh, { passive: true });
+    banner.addEventListener("mousedown", sploosh);
+  }
 
   if (reduced) {
     draw(performance.now());

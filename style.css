@@ -654,8 +654,11 @@ form textarea:focus {
 
 .footer-cursor {
   display: inline-block;
+  width: 0.5em;
+  height: 0.85em;
   margin-left: 3px;
-  color: var(--muted);
+  vertical-align: -0.1em;
+  background: currentColor;
   animation: cursor-blink 2.4s ease-in-out infinite;
 }
 

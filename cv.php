@@ -1,8 +1,10 @@
 <?php
 $title = "CV";
+$heading = "CV";
+$browserTitle = "CV in delovne izkušnje – Jan Robas";
 $metaDescription = "Življenjepis Jan Robasa: izkušnje kot predavatelj in full stack razvijalec.";
 $content = <<<HTML
-Delovne izkušnje kot predavatelj:
+<h2>Delovne izkušnje kot predavatelj</h2>
 <ul>
     <li>
         Šolski center Kranj (od 2017)
@@ -24,7 +26,8 @@ Delovne izkušnje kot predavatelj:
     </li>
 </ul>
 
-Delovne izkušnje kot razvijalec programske opreme &ndash; full stack (novejše na vrhu):
+<h2>Delovne izkušnje kot razvijalec programske opreme &ndash; full stack</h2>
+<p>Novejše izkušnje na vrhu.</p>
 <ul>
     <li>INŠTITUL UL RI, d.o.o. &ndash; informacijska podpora za Univerzo v Ljubljani (od 2024)</li>
     <li>Celtra &ndash; oglaševalska tehnologija (2022 &ndash; 2024)</li>

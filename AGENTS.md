@@ -9,21 +9,21 @@ Osebna spletna stran Jan Robasa. PHP + vanilijski CSS/JS, **brez build orodij in
 - Po spremembi preveri, da se stran dejansko odpre (preglej `index.html`, `projekti.html`, `cv.html`, ... prek HTTP).
 
 ## Struktura in usmerjanje
-- `.htaccess` pretvori `*.html` → `index.php?subpage=X` (če fizične datoteke ni), onemogoči directory listing, blokira dotfile (`.git`, ...), vsili HTTPS in predpomni statiko (`Cache-Control`). `janrobas.com` in `lalala.si` sta oba živa na isti vsebini; `canonical`/`og:url`/JSON-LD v `index.php` vedno kažejo na `https://janrobas.com` (SEO konsolidacija).
+- `.htaccess` pretvori `*.html` → `index.php?subpage=X` (če fizične datoteke ni), neznane poti pa na `index.php?subpage=notfound` (stilizirana 404). Blokira `inc/` in dotfile (`.git`, ...), onemogoči directory listing, vsili HTTPS (HSTS), doda `Permissions-Policy`, CSP v načinu `-Report-Only` (pred vsiljenjem bi inline skripte potrebovale nonce) in predpomni statiko (`Cache-Control`), HTML pa označi z `no-cache`. `janrobas.com` in `lalala.si` sta oba živa na isti vsebini; `canonical`/`og:url`/JSON-LD v `index.php` vedno kažejo na `https://janrobas.com` (SEO konsolidacija).
 - `robots.txt` in `sitemap.xml` sta statična; ob novi podstrani ju posodobi.
-- `index.php`: allowlist dovoljenih podstrani, nato `require $subpage.".php"`.
-- Vsaka podstran (`home.php`, `about.php`, `cv.php`, `projekti.php`, `contact.php`, `contact_error.php`, `contact_success.php`) nastavi `$title` in `$content` (heredoc HTML).
+- `index.php`: allowlist dovoljenih podstrani, nato `require $subpage.".php"`; neznana/stran z napako dobi status 404 in `notfound.php` ter `noindex`. Podstrani `contact_error`, `contact_success` in `notfound` so `noindex` in brez `canonical`.
+- Vsaka podstran (`home.php`, `about.php`, `cv.php`, `projekti.php`, `contact.php`, `contact_error.php`, `contact_success.php`, `notfound.php`) nastavi `$title`, `$heading` (H1), `$browserTitle` (`<title>`/og:title) in `$content` (heredoc HTML).
 - Navigacija: Domov · Vizitka · CV · Projekti · Kontakt. Aktivni link določi `$activeNav` v `index.php`.
 - Nova podstran = nova PHP datoteka + vnos v allowlist + povezava `.html` (rewrite deluje samodejno).
 
 ## Kontaktna pot
-- `contact.php` = obrazec + hCaptcha. `do_contact.php` preveri hCaptcha (skrivnost v `config.php`, gitignored) in sporočilo pošlje na Telegram (config: `telegram_bot_token`, `telegram_chat_id`). Sprejema samo POST, validira vnos in preveri `ok` iz Telegrama preden preusmeri na `contact_success.html`.
+- `contact.php` = obrazec + hCaptcha (javni sitekey v `contact.php`, skrivnost v `config.php`, gitignored). `do_contact.php` preveri hCaptcha in pošlje sporočilo na Telegram (config: `telegram_bot_token`, `telegram_chat_id`). Honeypot polje `website` + omejitev enega sporočila na 20 s. Sprejema samo POST, validira vnos in preveri `ok` iz Telegrama preden preusmeri na `contact_success.html`.
 
 ## Dizajn — pomembno
 - **NE maramo "AI generiranega" izgleda**: izogibaj se enotnih mrež kartic (card grid) na landing strani in odvečnih okvirjev. Raje preprosto, človeško, minimalno (navadni seznami, odprt tekst). Preveri pri uporabniku, če nisi prepričan.
-- Dvojna tema: temna (privzeto) / svetla prek `data-theme` na `<html>`. Barve so CSS spremenljivke v `style.css` (`--bg`, `--surface`, `--text`, `--accent` = `#e53b44`, ...). Toggle shrani v localStorage (`janrobas-theme`); vrednost se nastavi v inline skriptu v `<head>`, da ni flasha.
+- Dvojna tema: temna (privzeto) / svetla prek `data-theme` na `<html>`. Barve so CSS spremenljivke v `style.css` (`--bg`, `--surface`, `--text`, `--accent` = `#d65d66`, ...). Toggle shrani v localStorage (`janrobas-theme`); vrednost se nastavi v inline skriptu v `<head>`, da ni flasha.
 - Pisava: Lato (Google Fonts). Zaobljeni robovi 14–19px.
-- `banner.js`: animiran pixel-val (crescendo L→R), občasno "povalovi"; klik/tap = easter egg (sploosh). Spoštuje `prefers-reduced-motion`.
+- `banner.js`: animiran pixel-val (crescendo L→R), občasno "povalovi"; klik/tap = easter egg (sploosh). Za bralnike zaslona je banner dekorativen (`aria-hidden`), zato ga tipkovnica ne doseže. Spoštuje `prefers-reduced-motion`.
 - Vsebina je slovenska; komentarji v kodi minimalni.
 
 ## Konvencije

@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /do_contact.php
+Disallow: /inc/
 
 Sitemap: https://janrobas.com/sitemap.xml

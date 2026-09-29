@@ -11,7 +11,7 @@
   var w = 0;
   var h = 0;
 
-  var pal = { accent: "#e53b44", grid: "rgba(191,203,190,.07)", center: "rgba(191,203,190,.18)" };
+  var pal = { accent: "#d65d66", grid: "rgba(191,203,190,.07)", center: "rgba(191,203,190,.18)" };
 
   function readColors() {
     var cs = getComputedStyle(document.documentElement);
@@ -210,12 +210,6 @@
 
   var banner = canvas.closest("#banner") || canvas;
   banner.addEventListener("pointerdown", sploosh);
-  banner.addEventListener("keydown", function (ev) {
-    if (ev.key === "Enter" || ev.key === " ") {
-      ev.preventDefault();
-      sploosh();
-    }
-  });
 
   if (reduced) {
     draw(performance.now());

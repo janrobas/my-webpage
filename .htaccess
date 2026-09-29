@@ -7,6 +7,9 @@ DirectoryIndex index.php index.html
   # Never serve dotfiles (.git, .env, ...); keep /.well-known reachable
   RewriteRule (^|/)\.(?!well-known/) - [F,L]
 
+  # Server-side includes are not public
+  RewriteRule ^inc(/|$) - [F,L]
+
   # Drop www on janrobas.com
   RewriteCond %{HTTP_HOST} ^www\.janrobas\.com$ [NC]
   RewriteRule ^ https://janrobas.com%{REQUEST_URI} [R=301,L]
@@ -29,6 +32,11 @@ DirectoryIndex index.php index.html
   # *.html -> index.php?subpage=X (only when no real file exists)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^([^/.]+)\.html$ index.php?subpage=$1 [L,QSA]
+
+  # Anything else that is not a real file/dir -> styled 404 (index.php sets the status)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php?subpage=notfound [L,QSA]
 </IfModule>
 
 <IfModule mod_headers.c>
@@ -36,9 +44,19 @@ DirectoryIndex index.php index.html
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+  Header always set Strict-Transport-Security "max-age=31536000"
+
+  # Monitor-only: check the browser console for violations, then drop -Report-Only
+  # (inline scripts in index.php/contact.php would need a nonce before enforcing)
+  Header set Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' https://js.hcaptcha.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://img.itch.zone; frame-src https://hcaptcha.com https://*.hcaptcha.com; connect-src 'self' https://*.hcaptcha.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self'"
 
   <FilesMatch "\.(css|js|png|svg|ico|woff2?)$">
     Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  <FilesMatch "\.(html|php)$">
+    Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
 

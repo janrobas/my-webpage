@@ -225,7 +225,7 @@ html[data-theme="light"] .theme-toggle .icon-moon { display: block; }
 
 .menu-backdrop.show { opacity: 1; visibility: visible; }
 
-body.menu-locked { overflow: hidden; }
+html.menu-locked { overflow: hidden; }
 
 @media (max-width: 719px) {
   .hamburger { display: inline-flex; }

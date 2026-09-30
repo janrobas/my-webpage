@@ -155,7 +155,7 @@
         topnav.classList.add("open");
         backdrop.classList.add("show");
         menuOpen.classList.add("is-active");
-        document.body.classList.add("menu-locked");
+        document.documentElement.classList.add("menu-locked");
         menuOpen.setAttribute("aria-expanded", "true");
         menuOpen.setAttribute("aria-label", "Zapri meni");
       }
@@ -164,7 +164,7 @@
         topnav.classList.remove("open");
         backdrop.classList.remove("show");
         menuOpen.classList.remove("is-active");
-        document.body.classList.remove("menu-locked");
+        document.documentElement.classList.remove("menu-locked");
         menuOpen.setAttribute("aria-expanded", "false");
         menuOpen.setAttribute("aria-label", "Odpri meni");
       }

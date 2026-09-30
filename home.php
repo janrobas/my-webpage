@@ -1,7 +1,7 @@
 <?php
 $title = "Domov";
 $heading = "Jan Robas";
-$browserTitle = "Jan Robas – predavatelj, razvijalec in inštruktor programiranja";
+$browserTitle = "Jan Robas - predavatelj, razvijalec in inštruktor programiranja";
 $metaDescription = "Osebna spletna stran Jan Robasa: predavanja, razvoj in inštrukcije programiranja.";
 $content = <<<HTML
 <p class="lede">Živjo, sem Jan. Predavam računalniške predmete, razvijam programsko opremo in pomagam pri učenju programiranja.</p>

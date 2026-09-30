@@ -1,7 +1,7 @@
 <?php
 $title = "CV";
 $heading = "CV";
-$browserTitle = "CV in delovne izkušnje – Jan Robas";
+$browserTitle = "CV in delovne izkušnje - Jan Robas";
 $metaDescription = "Življenjepis Jan Robasa: izkušnje kot predavatelj in full stack razvijalec.";
 $content = <<<HTML
 <h2>Delovne izkušnje kot predavatelj</h2>

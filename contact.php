@@ -6,7 +6,7 @@ $hcaptchaSitekey = "0948ce9d-3d00-450c-b726-71ad42e8e8f3";
 
 $title = "Kontakt";
 $heading = "Kontakt";
-$browserTitle = "Kontakt – Jan Robas";
+$browserTitle = "Kontakt - Jan Robas";
 $metaDescription = "Kontakt: pošljite sporočilo Jan Robasu.";
 
 $captchaField = '<div class="h-captcha" data-sitekey="' . htmlspecialchars($hcaptchaSitekey, ENT_QUOTES) . '"></div>';

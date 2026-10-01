@@ -26,14 +26,14 @@ $content = <<<HTML
     </li>
 </ul>
 
-<h2>Delovne izkušnje kot razvijalec programske opreme &ndash; full stack</h2>
+<h2>Delovne izkušnje kot razvijalec programske opreme - full stack</h2>
 <p>Novejše izkušnje na vrhu.</p>
 <ul>
-    <li>INŠTITUL UL RI, d.o.o. &ndash; informacijska podpora za Univerzo v Ljubljani (od 2024)</li>
-    <li>Celtra &ndash; oglaševalska tehnologija (2022 &ndash; 2024)</li>
-    <li>Loftware &ndash; sistemi za tiskanje etiket (2021 &ndash; 2022)</li>
-    <li>Datastat d.o.o. &ndash; športna informatika (2018 &ndash; 2021)</li>
-    <li>UL FRI &ndash; razvoj sistemov za študijsko informatiko (2012 &ndash; 2018)</li>
+    <li>INŠTITUL UL RI, d.o.o. - informacijska podpora za Univerzo v Ljubljani (od 2024)</li>
+    <li>Celtra - oglaševalska tehnologija (2022 - 2024)</li>
+    <li>Loftware - sistemi za tiskanje etiket (2021 - 2022)</li>
+    <li>Datastat d.o.o. - športna informatika (2018 - 2021)</li>
+    <li>UL FRI - razvoj sistemov za študijsko informatiko (2012 - 2018)</li>
 </ul>
 
 <h2 class="other-channels">Povezave</h2>

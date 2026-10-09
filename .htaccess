@@ -25,14 +25,9 @@ DirectoryIndex index.php index.html
   RewriteCond %{HTTP_HOST} ^janrobas\.com$ [NC]
   RewriteRule ^ https://janrobas.com%{REQUEST_URI} [R=301,L]
 
-  # Drop www + force https on lalala.si (stays on its own domain; canonical consolidates to janrobas.com)
-  RewriteCond %{HTTP_HOST} ^www\.lalala\.si$ [NC]
-  RewriteRule ^ https://lalala.si%{REQUEST_URI} [R=301,L]
-
-  RewriteCond %{HTTPS} off
-  RewriteCond %{HTTP:X-Forwarded-SSL} !on
-  RewriteCond %{HTTP_HOST} ^lalala\.si$ [NC]
-  RewriteRule ^ https://lalala.si%{REQUEST_URI} [R=301,L]
+  # 301 lalala.si (+ www, http/https) -> janrobas.com, preserving path + query (SEO consolidation)
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?lalala\.si$ [NC]
+  RewriteRule ^ https://janrobas.com%{REQUEST_URI} [R=301,L]
 
   # *.html -> index.php?subpage=X (only when no real file exists)
   RewriteCond %{REQUEST_FILENAME} !-f

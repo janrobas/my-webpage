@@ -129,7 +129,7 @@
     </div>
   </header>
 
-  <section class="banner" id="banner" aria-hidden="true">
+  <section class="banner<?= $subpage === "home" ? "" : " banner--compact" ?>" id="banner" data-auto="<?= $subpage === "home" ? "1" : "0" ?>" aria-hidden="true">
     <canvas id="banner-canvas"></canvas>
   </section>
 

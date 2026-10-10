@@ -271,6 +271,11 @@ html.menu-locked { overflow: hidden; }
   cursor: pointer;
 }
 
+/* Subpages: half height (and the wave scales down with it), no auto-waves. */
+.banner--compact {
+  height: clamp(95px, 17vw, 160px);
+}
+
 .banner::after {
   content: "";
   position: absolute;

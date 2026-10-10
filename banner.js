@@ -7,6 +7,10 @@
   var ctx = canvas.getContext("2d");
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  var banner = canvas.closest("#banner") || canvas;
+  // Automatic idle waves only run where the page opts in (home page).
+  var auto = banner.getAttribute("data-auto") !== "0";
+
   var PX = 5; // pixel size
   var w = 0;
   var h = 0;
@@ -86,8 +90,9 @@
 
   var WAVE_DURATION = 4000; // ms
   var waveStart = 0;
-  // with reduced motion the automatic wave stays off; only a tap animates
-  var nextWaveAt = reduced ? Infinity : performance.now() + 8000;
+  // with reduced motion (or on a page with auto-waves off) the automatic wave
+  // stays off; only a tap animates
+  var nextWaveAt = (reduced || !auto) ? Infinity : performance.now() + 8000;
   var phase = 0;
   var lastNow = performance.now();
 
@@ -149,7 +154,7 @@
 
   // the loop only runs while the wave moves or a sploosh is active;
   // otherwise it sleeps until the next scheduled wave.
-  var running = !reduced;
+  var running = auto && !reduced;
   var rafId = 0;
   var idleTimer = 0;
 
@@ -194,10 +199,11 @@
 
     if (state === WAVING || surging) {
       schedule();
-    } else if (reduced) {
-      running = false; // never start the automatic wave against the user's preference
-    } else {
+    } else if (auto && !reduced) {
       idleTimer = window.setTimeout(wake, Math.max(0, nextWaveAt - performance.now()) + 50);
+    } else {
+      // subpage (no auto-waves) or reduced motion: sleep until the next tap
+      running = false;
     }
   }
 
@@ -223,14 +229,13 @@
       running = false;
       if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
       if (idleTimer) { clearTimeout(idleTimer); idleTimer = 0; }
-    } else if (!reduced) {
+    } else if (!reduced && (auto || surging)) {
       running = true;
       lastNow = performance.now();
       schedule();
     }
   });
 
-  var banner = canvas.closest("#banner") || canvas;
   if (window.PointerEvent) {
     banner.addEventListener("pointerdown", sploosh);
   } else {
@@ -238,9 +243,10 @@
     banner.addEventListener("mousedown", sploosh);
   }
 
-  if (reduced) {
-    draw(performance.now());
-  } else {
+  if (running) {
     schedule();
+  } else {
+    // draw the static wave once even when not animating (reduced motion or subpage)
+    draw(performance.now());
   }
 })();

@@ -5,6 +5,10 @@
 // server-side; the browser never sees it.
 
 const MEMORYDOWN_CACHE_TTL = 60;
+// A failed revalidation may still serve the last good copy, but only while it
+// is younger than this. Older than that it is dropped and the page goes blank
+// rather than showing arbitrarily stale content.
+const MEMORYDOWN_STALE_MAX = 86400; // 24 hours
 
 function memorydown_config(): array {
     static $cfg = null;
@@ -60,8 +64,8 @@ function memorydown_request(string $path): ?array {
 
     $result = memorydown_curl($url, $headers);
     if ($result["error"]) {
-        // Network/SSL failure: serve a stale copy if we have one.
-        return $cached !== null ? $cached["body"] : null;
+        // Network/SSL failure: serve a stale copy if it is still fresh enough.
+        return memorydown_stale_body($cached);
     }
 
     if ($result["status"] === 304 && $cached !== null) {
@@ -82,7 +86,19 @@ function memorydown_request(string $path): ?array {
         }
     }
 
-    return $cached !== null ? $cached["body"] : null;
+    return memorydown_stale_body($cached);
+}
+
+/**
+ * The cached body, but only while it is within the max-stale window; otherwise
+ * null, so callers fall back to the "not available" state instead of serving
+ * arbitrarily old content.
+ */
+function memorydown_stale_body(?array $cached): ?array {
+    if ($cached === null || (time() - $cached["ts"]) > MEMORYDOWN_STALE_MAX) {
+        return null;
+    }
+    return $cached["body"];
 }
 
 function memorydown_curl(string $url, array $headers): array {

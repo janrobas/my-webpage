@@ -18,7 +18,7 @@ Osebna spletna stran Jan Robasa. PHP + vanilijski CSS/JS, **brez build orodij in
 
 ## Zapiski (MemoryDown)
 - `zapiski.php` bere javne zapiske iz MemoryDown API-ja (`GET /public/writings[/{id}]`, bearer token). Osnova: `memorydown_base_url` + `memorydown_token` v `config.php` (gitignored; glej `config.example.php`). Brez nastavljenega žetona stran pokaže "Zapiski trenutno niso na voljo."
-- `inc/memorydown.php` = strežniški cURL odjemalec z 60 s datotečnim predpomnilnikom (`inc/cache/`, gitignored) in ETag revalidacijo; žeton nikoli ne doseže brskalnika. `inc/markdown.php` renderira Markdown prek samohostanega `Parsedown`/`ParsedownExtra` v `inc/vendor/` (safe mode).
+- `inc/memorydown.php` = strežniški cURL odjemalec z 60 s svežino predpomnilnika (`inc/cache/`, gitignored), ETag revalidacijo in največ 24 h starim rezervnim predpomnilnikom (starejše se ne streže več); žeton nikoli ne doseže brskalnika. `inc/markdown.php` renderira Markdown prek samohostanega `Parsedown`/`ParsedownExtra` v `inc/vendor/` (safe mode).
 - Seznam (`zapiski.html`) skrije arhivirane zapiske; posamezen zapisek (`zapiski.html?id=<slug>`) je 404 + `noindex`, če ne obstaja. `id` mora ustrezati `^[a-z0-9][a-z0-9._-]{0,127}$`.
 
 ## Kontaktna pot

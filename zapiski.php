@@ -57,6 +57,7 @@ if (!memorydown_enabled()) {
             . (($metaLine !== "" || $badge !== "") ? '<p class="note-meta">' . $metaLine . $badge . '</p>' : '')
             . '<div class="note-body">' . $rendered . '</div>'
             . '</article>'
+            . '<div class="note-share" data-share data-share-title="' . htmlspecialchars($noteTitle, ENT_QUOTES) . '"></div>'
             . '<p class="writing-back"><a href="zapiski.html">&larr; Nazaj na zapiske</a></p>';
     }
 } else {

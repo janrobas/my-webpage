@@ -664,9 +664,22 @@ a.game-row:hover {
 
 .note-body th { background: var(--surface-2); font-weight: 700; }
 
-.content-inner .writing-back { margin-top: 28px; }
+.content-inner .writing-back { margin-top: 16px; }
 .writing-back a { color: var(--accent); text-decoration: none; }
 .writing-back a:hover { text-decoration: underline; }
+
+.content-inner .note-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.note-share-status {
+  font-size: 13.5px;
+  color: var(--muted);
+}
 
 /* ---------- Buttons & forms ---------- */
 

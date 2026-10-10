@@ -18,7 +18,7 @@
   $activeNav = in_array($subpage, array("contact", "contact_error", "contact_success"), true) ? "contact" : $subpage;
   $noindex = $notFound || !empty($pageNoindex) || in_array($subpage, array("contact_error", "contact_success"), true);
   $heading = $heading ?? $title;
-  $browserTitle = $browserTitle ?? ("Jan Robas | " . $title);
+  $browserTitle = $browserTitle ?? ($title . " | Jan Robas");
 
   $scheme = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") ? "https" : "http";
   $hostRaw = $_SERVER["HTTP_HOST"] ?? "janrobas.com";
@@ -147,6 +147,9 @@
   <div class="menu-backdrop" id="menu-backdrop"></div>
 
   <script src="banner.js?v=<?=filemtime(__DIR__ . "/banner.js")?>"></script>
+  <?php if ($subpage === "zapiski") { ?>
+  <script src="share.js?v=<?=filemtime(__DIR__ . "/share.js")?>"></script>
+  <?php } ?>
   <script>
     (function () {
       var menuOpen = document.getElementById("menu-open");

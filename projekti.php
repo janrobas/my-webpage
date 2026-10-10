@@ -1,7 +1,7 @@
 <?php
 $title = "Projekti";
 $heading = "Projekti";
-$browserTitle = "Projekti - igre in spletne aplikacije | Jan Robas";
+$browserTitle = "Projekti | Jan Robas";
 $metaDescription = "Igre in spletni projekti Jan Robasa: preproste igre, RacunProsim in E-dobavnica.";
 $content = <<<HTML
 <h2>Igre</h2>

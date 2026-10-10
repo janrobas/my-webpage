@@ -461,6 +461,160 @@ a.game-row:hover {
   color: var(--muted);
 }
 
+/* ---------- Zapiski (writings) ---------- */
+
+.writing-intro { color: var(--muted); }
+
+.content-inner .writing-list {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.content-inner .writing-item {
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.writing-link {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px 4px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.writing-link:hover { text-decoration: none; }
+.writing-link:hover .writing-title { color: var(--accent); }
+
+.writing-title {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+.writing-meta,
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.content-inner .note-meta { margin: 0 0 20px; }
+
+.note-sep { color: var(--border); }
+
+.writing-tag {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.writing-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+}
+
+.note-body { font-size: 17px; }
+.note-body > :first-child { margin-top: 0; }
+
+.note-body h1,
+.note-body h2,
+.note-body h3,
+.note-body h4 {
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 30px 0 12px;
+  color: var(--text);
+}
+
+.note-body h1 { font-size: 26px; }
+.note-body h2 { font-size: 22px; }
+.note-body h3 { font-size: 19px; }
+.note-body h4 { font-size: 17px; }
+
+.note-body p { margin: 0 0 16px; }
+.note-body a { color: var(--accent); text-decoration: none; }
+.note-body a:hover { text-decoration: underline; }
+.note-body ul,
+.note-body ol { margin: 0 0 16px; padding-left: 24px; }
+.note-body li { margin-bottom: 6px; }
+.note-body img { max-width: 100%; height: auto; border-radius: 12px; }
+
+.note-body blockquote {
+  margin: 0 0 16px;
+  padding: 4px 0 4px 18px;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+}
+
+.note-body code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 2px 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.note-body pre {
+  margin: 0 0 18px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.note-body pre code {
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: 14px;
+}
+
+.note-body hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 28px 0;
+}
+
+.note-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 18px;
+  font-size: 15px;
+}
+
+.note-body th,
+.note-body td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.note-body th { background: var(--surface-2); font-weight: 700; }
+
+.content-inner .writing-back { margin-top: 28px; }
+.writing-back a { color: var(--accent); text-decoration: none; }
+.writing-back a:hover { text-decoration: underline; }
+
 /* ---------- Buttons & forms ---------- */
 
 button,

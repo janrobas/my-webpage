@@ -12,9 +12,14 @@ Osebna spletna stran Jan Robasa. PHP + vanilijski CSS/JS, **brez build orodij in
 - `.htaccess` pretvori `*.html` → `index.php?subpage=X` (če fizične datoteke ni), neznane poti pa na `index.php?subpage=notfound` (stilizirana 404). Blokira `inc/` in dotfile (`.git`, ...), onemogoči directory listing, vsili HTTPS (HSTS), doda `Permissions-Policy`, CSP v načinu `-Report-Only` (pred vsiljenjem bi inline skripte potrebovale nonce) in predpomni statiko (`Cache-Control`), HTML pa označi z `no-cache`. `lalala.si` (tudi `www`, http/https) se 301 preusmeri na `https://janrobas.com` (pot in query se ohranita); `localhost` ni prizadet, zato je lokalni razvoj normalen. `canonical`/`og:url`/JSON-LD v `index.php` vedno kažejo na `https://janrobas.com` (SEO konsolidacija).
 - `robots.txt` in `sitemap.xml` sta statična; ob novi podstrani ju posodobi.
 - `index.php`: allowlist dovoljenih podstrani, nato `require $subpage.".php"`; neznana/stran z napako dobi status 404 in `notfound.php` ter `noindex`. Podstrani `contact_error`, `contact_success` in `notfound` so `noindex` in brez `canonical`.
-- Vsaka podstran (`home.php`, `about.php`, `cv.php`, `projekti.php`, `contact.php`, `contact_error.php`, `contact_success.php`, `notfound.php`) nastavi `$title`, `$heading` (H1), `$browserTitle` (`<title>`/og:title) in `$content` (heredoc HTML).
-- Navigacija: Domov · Vizitka · CV · Projekti · Kontakt. Aktivni link določi `$activeNav` v `index.php`.
+- Vsaka podstran (`home.php`, `about.php`, `cv.php`, `projekti.php`, `zapiski.php`, `contact.php`, `contact_error.php`, `contact_success.php`, `notfound.php`) nastavi `$title`, `$heading` (H1), `$browserTitle` (`<title>`/og:title) in `$content` (heredoc HTML).
+- Navigacija: Domov · Vizitka · CV · Projekti · Zapiski · Kontakt. Aktivni link določi `$activeNav` v `index.php`.
 - Nova podstran = nova PHP datoteka + vnos v allowlist + povezava `.html` (rewrite deluje samodejno).
+
+## Zapiski (MemoryDown)
+- `zapiski.php` bere javne zapiske iz MemoryDown API-ja (`GET /public/writings[/{id}]`, bearer token). Osnova: `memorydown_base_url` + `memorydown_token` v `config.php` (gitignored; glej `config.example.php`). Brez nastavljenega žetona stran pokaže "Zapiski trenutno niso na voljo."
+- `inc/memorydown.php` = strežniški cURL odjemalec z 60 s datotečnim predpomnilnikom (`inc/cache/`, gitignored) in ETag revalidacijo; žeton nikoli ne doseže brskalnika. `inc/markdown.php` renderira Markdown prek samohostanega `Parsedown`/`ParsedownExtra` v `inc/vendor/` (safe mode).
+- Seznam (`zapiski.html`) skrije arhivirane zapiske; posamezen zapisek (`zapiski.html?id=<slug>`) je 404 + `noindex`, če ne obstaja. `id` mora ustrezati `^[a-z0-9][a-z0-9._-]{0,127}$`.
 
 ## Kontaktna pot
 - `contact.php` = obrazec + hCaptcha (javni sitekey v `contact.php`, skrivnost v `config.php`, gitignored). `do_contact.php` preveri hCaptcha in pošlje sporočilo na Telegram (config: `telegram_bot_token`, `telegram_chat_id`). Honeypot polje `website` + omejitev enega sporočila na 20 s. Sprejema samo POST, validira vnos in preveri `ok` iz Telegrama preden preusmeri na `contact_success.html`.

@@ -7,7 +7,7 @@
   if ($subpage === "" || $subpage === "index") {
     $subpage = "home";
   }
-  $allowed = array("home", "about", "cv", "projekti", "contact", "contact_error", "contact_success");
+  $allowed = array("home", "about", "cv", "projekti", "zapiski", "contact", "contact_error", "contact_success");
   $notFound = !in_array($subpage, $allowed, true);
   if ($notFound) {
     http_response_code(404);
@@ -16,7 +16,7 @@
   require $subpage . ".php";
 
   $activeNav = in_array($subpage, array("contact", "contact_error", "contact_success"), true) ? "contact" : $subpage;
-  $noindex = $notFound || in_array($subpage, array("contact_error", "contact_success"), true);
+  $noindex = $notFound || !empty($pageNoindex) || in_array($subpage, array("contact_error", "contact_success"), true);
   $heading = $heading ?? $title;
   $browserTitle = $browserTitle ?? ("Jan Robas | " . $title);
 
@@ -29,7 +29,9 @@
   $basePath = rtrim(dirname($_SERVER["SCRIPT_NAME"] ?? "/"), "/");
   $siteUrl = $origin . $basePath . "/";
   $canonical = $siteUrl;
-  if (!$notFound && !in_array($subpage, array("home", "index"), true)) {
+  if (!empty($canonicalOverride)) {
+    $canonical .= $canonicalOverride;
+  } elseif (!$notFound && !in_array($subpage, array("home", "index"), true)) {
     $pageFile = in_array($subpage, array("contact_error", "contact_success"), true) ? "contact" : $subpage;
     $canonical .= $pageFile . ".html";
   }
@@ -112,6 +114,7 @@
         <a href="about.html"<?= $activeNav === "about" ? ' class="active" aria-current="page"' : "" ?>>Vizitka</a>
         <a href="cv.html"<?= $activeNav === "cv" ? ' class="active" aria-current="page"' : "" ?>>CV</a>
         <a href="projekti.html"<?= $activeNav === "projekti" ? ' class="active" aria-current="page"' : "" ?>>Projekti</a>
+        <a href="zapiski.html"<?= $activeNav === "zapiski" ? ' class="active" aria-current="page"' : "" ?>>Zapiski</a>
         <a href="contact.html"<?= $activeNav === "contact" ? ' class="active" aria-current="page"' : "" ?>>Kontakt</a>
       </nav>
       <div class="topbar-actions">

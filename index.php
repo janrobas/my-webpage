@@ -134,7 +134,7 @@
   </section>
 
   <main class="content" id="main" tabindex="-1">
-    <h1 class="page-title"><?=htmlspecialchars($heading)?></h1>
+    <h1 class="page-title<?= $subpage === "home" ? " page-title--home" : "" ?>"><?=htmlspecialchars($heading)?></h1>
     <div class="content-inner">
       <?=$content?>
     </div>

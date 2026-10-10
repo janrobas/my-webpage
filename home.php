@@ -1,16 +1,29 @@
 <?php
 $title = "Domov";
-$heading = "Jan Robas";
+$heading = "Kam želite iti danes?";
 $browserTitle = "Jan Robas - predavatelj, razvijalec in inštruktor programiranja";
 $metaDescription = "Osebna spletna stran Jan Robasa: predavanja, razvoj in inštrukcije programiranja.";
 $content = <<<HTML
-<p class="lede">Živjo, sem Jan. Predavam računalniške predmete, razvijam programsko opremo in pomagam pri učenju programiranja.</p>
-<p>Na tej strani najdete mojo <a href="about.html">vizitko</a>, <a href="cv.html">življenjepis</a> in <a href="projekti.html">projekte</a>, ki jih razvijam v prostem času.</p>
-
-<h2>Kaj ponujam</h2>
-<ul class="offer-list">
-  <li><strong>Predavanja</strong> strokovnih predmetov s področja računalništva in informatike.</li>
-  <li><strong>Razvoj</strong> programskih rešitev (full stack) in povezovanje obstoječih sistemov.</li>
-  <li><strong>Inštrukcije</strong> programiranja in svetovanje pri uporabi umetne inteligence.</li>
-</ul>
+<div class="dest-grid">
+  <a class="dest-tile" href="about.html">
+    <span class="dest-name">Vizitka</span>
+    <span class="dest-desc">Kdo sem in kaj delam.</span>
+  </a>
+  <a class="dest-tile" href="cv.html">
+    <span class="dest-name">CV</span>
+    <span class="dest-desc">Delovne izkušnje kot predavatelj in razvijalec.</span>
+  </a>
+  <a class="dest-tile" href="projekti.html">
+    <span class="dest-name">Projekti</span>
+    <span class="dest-desc">Igre in spletne aplikacije.</span>
+  </a>
+  <a class="dest-tile" href="zapiski.html">
+    <span class="dest-name">Zapiski</span>
+    <span class="dest-desc">Kratki zapisi, misli in beležke.</span>
+  </a>
+  <a class="dest-tile" href="contact.html">
+    <span class="dest-name">Kontakt</span>
+    <span class="dest-desc">Pišite mi.</span>
+  </a>
+</div>
 HTML;
